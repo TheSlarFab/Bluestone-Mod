@@ -1,0 +1,7 @@
+item.itemBluestone.name=Bluestone
+
+tile.blockBluestone.name=Bluestone Block
+tile.blockBluestoneTorchLit.name=Bluestone Torch
+tile.blockBluestoneTorchUnlit.name=Bluestone Torch
+
+itemGroup.tabBluestone=Bluestone Mod

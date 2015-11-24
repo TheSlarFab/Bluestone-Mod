@@ -1,0 +1,26 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "bluestone:blocks/blockBluestoneWire_cross",
+        "cross": "bluestone:blocks/blockBluestoneWire_cross",
+        "crossoverlay": "bluestone:blocks/blockBluestoneWire_cross_overlay",
+        "line": "bluestone:blocks/blockBluestoneWire_line",
+        "lineoverlay": "bluestone:blocks/blockBluestoneWire_line_overlay"
+    },
+    "elements": [
+        {   "from": [ 5, 0.25, 0 ],
+            "to": [ 16, 0.25, 11 ],
+            "shade": false,
+            "faces": {
+                "up":    { "uv": [ 5, 0, 16, 11 ], "texture": "#cross", "tintindex": 0 }
+            }
+        },
+        {   "from": [ 5, 0.25, 0 ],
+            "to": [ 16, 0.25, 11 ],
+            "shade": false,
+            "faces": {
+                "up":    { "uv": [ 5, 0, 16, 11 ], "texture": "#crossoverlay" }
+            }
+        }
+    ]
+}

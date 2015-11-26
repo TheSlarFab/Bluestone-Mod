@@ -1,7 +1,19 @@
 item.itemBluestone.name=Bluestone
+item.itemBluestoneRepeater.name=Bluestone Repeater
+item.itemBluestoneComparator.name=Bluestone Comparator
 
 tile.blockBluestone.name=Bluestone Block
 tile.blockBluestoneTorchLit.name=Bluestone Torch
 tile.blockBluestoneTorchUnlit.name=Bluestone Torch
+tile.blockBluestoneWire.name=Bluestone Dust
+tile.blockBluestoneRailDetector.name=Detector Rail (Bluestone)
+tile.blockBluestoneOreUnlit.name=Bluestone Ore
+tile.blockBluestoneOreLit.name=Bluestone Ore
+tile.blockBluestoneRailPowered.name=Powered Rail (Bluestone)
+tile.blockBluestoneRailActivator.name=Activator Rail (Bluestone)
+tile.blockBluestoneComparatorOff.name=Bluestone Comparator
+tile.blockBluestoneComparatorOn.name=Bluestone Comparator
+tile.blockBluestoneRepeaterOff.name=Bluestone Repeater
+tile.blockBluestoneRepeaterOn.name=Bluestone Repeater
 
 itemGroup.tabBluestone=Bluestone Mod

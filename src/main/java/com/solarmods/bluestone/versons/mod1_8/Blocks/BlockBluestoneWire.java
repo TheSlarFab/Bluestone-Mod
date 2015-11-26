@@ -339,8 +339,8 @@ public class BlockBluestoneWire extends Block {
 				&& canRestoneConnect(worldIn, blockpos1.up(), null)
 						? true
 						: (canRestoneConnect(worldIn, blockpos1, side) ? true
-								: (block == Blocks.powered_repeater
-										&& iblockstate.getValue(BlockRedstoneDiode.FACING) == side ? true
+								: (block == BluestoneBlocks.blockBluestoneRepeaterOn
+										&& iblockstate.getValue(BlockBluestoneDiode.FACING) == side ? true
 												: !flag && canRestoneConnect(worldIn, blockpos1.down(), null)));
 	}
 
@@ -349,8 +349,8 @@ public class BlockBluestoneWire extends Block {
 
 		if (state.getBlock() == BluestoneBlocks.blockBluestoneWire) {
 			return true;
-		} else if (Blocks.unpowered_repeater.isAssociated(state.getBlock())) {
-			EnumFacing direction = (EnumFacing) state.getValue(BlockRedstoneRepeater.FACING);
+		} else if (BluestoneBlocks.blockBluestoneRepeaterOff.isAssociatedBlock(state.getBlock())) {
+			EnumFacing direction = (EnumFacing) state.getValue(BlockBluestoneRepeater.FACING);
 			return direction == side || direction.getOpposite() == side;
 		} else {
 			return state.getBlock().canConnectRedstone(world, pos, side);

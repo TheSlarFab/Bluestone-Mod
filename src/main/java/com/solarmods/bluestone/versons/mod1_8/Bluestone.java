@@ -4,6 +4,7 @@ import com.solarmods.bluestone.versons.mod1_8.Blocks.BluestoneBlocks;
 import com.solarmods.bluestone.versons.mod1_8.CreativeTabs.BluestoneTab;
 import com.solarmods.bluestone.versons.mod1_8.Items.BluestoneItems;
 import com.solarmods.bluestone.versons.mod1_8.Proxy.CommonProxy;
+import com.solarmods.bluestone.versons.mod1_8.Recipes.BluestoneCraftingRecipes;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -31,6 +32,7 @@ public class Bluestone {
 		BluestoneBlocks.register();
 		BluestoneItems.init();
 		BluestoneItems.register();
+		BluestoneCraftingRecipes.register();
 	}
 	
 	@EventHandler

@@ -1,0 +1,6 @@
+{
+    "parent": "block/rail_raised_sw",
+    "textures": {
+        "rail": "bluestone:blocks/blockBluestoneRailDetector_powered"
+    }
+}

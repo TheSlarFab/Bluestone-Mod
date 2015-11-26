@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "bluestone:blocks/blockBluestoneRepeaterOff"
+        "layer0": "blocks/redstone_dust_cross"
     },
     "display": {
         "thirdperson": {

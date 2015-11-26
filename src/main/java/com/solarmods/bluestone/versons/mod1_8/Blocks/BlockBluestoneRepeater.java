@@ -2,6 +2,8 @@ package com.solarmods.bluestone.versons.mod1_8.Blocks;
 
 import java.util.Random;
 
+import com.solarmods.bluestone.versons.mod1_8.Items.BluestoneItems;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -72,13 +74,13 @@ public class BlockBluestoneRepeater extends BlockBluestoneDiode {
 
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.repeater;
+        return BluestoneItems.itemBluestoneRepeater;
     }
 
     @SideOnly(Side.CLIENT)
     public Item getItem(World worldIn, BlockPos pos)
     {
-        return Items.repeater;
+        return BluestoneItems.itemBluestoneRepeater;
     }
 
     public boolean isLocked(IBlockAccess worldIn, BlockPos pos, IBlockState state)
@@ -110,7 +112,7 @@ public class BlockBluestoneRepeater extends BlockBluestoneDiode {
             f /= 16.0F;
             double d3 = (double)(f * (float)enumfacing.getFrontOffsetX());
             double d4 = (double)(f * (float)enumfacing.getFrontOffsetZ());
-            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0 + d3, d1, d2 + d4, 1.0D, 1.0D, 250.0D, new int[0]);
         }
     }
 

@@ -24,6 +24,7 @@ public class BluestoneBlocks {
 	public static Block blockBluestoneOreLit;
 	public static Block blockBluestoneOreUnlit;
 	public static Block blockBluestoneRailDetector;
+	public static Block blockBluestoneRailGolden;
 	
 	public static void init() {
 		blockBluestone = new BlockCompressedPowered(MapColor.blueColor).setUnlocalizedName("blockBluestone").setCreativeTab(Bluestone.tabBluestone).setStepSound(Block.soundTypeMetal);
@@ -35,7 +36,9 @@ public class BluestoneBlocks {
 		blockBluestoneOreLit = new BlockBluestoneOre(true).setUnlocalizedName("blockBluestoneOreLit");
 		blockBluestoneOreUnlit = new BlockBluestoneOre(false).setUnlocalizedName("blockBluestoneOreUnlit");
 		blockBluestoneRailDetector = new BlockBluestoneRailDetector().setUnlocalizedName("blockBluestoneRailDetector").setStepSound(Block.soundTypeMetal).setCreativeTab(Bluestone.tabBluestone);
-		
+		blockBluestoneRailGolden = new BlockBluestoneRailPowered().setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockBluestoneRailGolden").setCreativeTab(Bluestone.tabBluestone);
+		blockBluestoneComparatorOff = new BlockBluestoneComparator(false).setUnlocalizedName("blockBluestoneComparatorOff").setStepSound(Block.soundTypeWood);
+		blockBluestoneComparatorOn = new BlockBluestoneComparator(true).setUnlocalizedName("blockBluestoneComparatorOn").setStepSound(Block.soundTypeWood);
 	}
 
 	public static void register() {
@@ -48,6 +51,9 @@ public class BluestoneBlocks {
 		GameRegistry.registerBlock(blockBluestoneOreLit, blockBluestoneOreLit.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBluestoneOreUnlit, blockBluestoneOreUnlit.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBluestoneRailDetector, blockBluestoneRailDetector.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBluestoneRailGolden, blockBluestoneRailGolden.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBluestoneComparatorOff, blockBluestoneComparatorOff.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBluestoneComparatorOn, blockBluestoneComparatorOn.getUnlocalizedName().substring(5));
 	}
 
 	public static void registerRenders() {
@@ -60,6 +66,9 @@ public class BluestoneBlocks {
 		registerRender(blockBluestoneOreLit);
 		registerRender(blockBluestoneOreUnlit);
 		registerRender(blockBluestoneRailDetector);
+		registerRender(blockBluestoneRailGolden);
+		registerRender(blockBluestoneComparatorOff);
+		registerRender(blockBluestoneComparatorOn);
 	}
 
 	public static void registerRender(Block block) {

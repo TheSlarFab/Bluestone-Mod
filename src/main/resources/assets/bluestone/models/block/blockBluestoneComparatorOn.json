@@ -5,7 +5,7 @@
         "slab": "blocks/stone_slab_top",
         "top": "bluestone:blocks/blockBluestoneComparatorOn",
         "unlit": "bluestone:blocks/blockBluestoneTorchUnlit",
-        "lit": "bluestone:blocks/blockBluestoneTorchLit"
+        "lit": "bluestone:blocks/BlockBluestoneTorchLit"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

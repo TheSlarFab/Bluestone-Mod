@@ -11,8 +11,6 @@ import com.google.common.collect.Sets;
 import com.solarmods.bluestone.versons.mod1_8.Items.BluestoneItems;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneDiode;
-import net.minecraft.block.BlockRedstoneRepeater;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -68,11 +66,11 @@ public class BlockBluestoneWire extends Block {
 		BlockPos blockpos1 = pos.offset(direction);
 		Block block = worldIn.getBlockState(pos.offset(direction)).getBlock();
 
-		if (!canRestoneConnect(worldIn, blockpos1, direction)
-				&& (block.isSolidFullCube() || !canRestoneConnect(worldIn, blockpos1.down(), null))) {
+		if (!canBluestoneConnect(worldIn, blockpos1, direction)
+				&& (block.isSolidFullCube() || !canBluestoneConnect(worldIn, blockpos1.down(), null))) {
 			Block block1 = worldIn.getBlockState(pos.up()).getBlock();
 			return !block1.isSolidFullCube() && block.isSolidFullCube()
-					&& canRestoneConnect(worldIn, blockpos1.up(), null) ? BlockBluestoneWire.EnumAttachPosition.UP
+					&& canBluestoneConnect(worldIn, blockpos1.up(), null) ? BlockBluestoneWire.EnumAttachPosition.UP
 							: BlockBluestoneWire.EnumAttachPosition.NONE;
 		} else {
 			return BlockBluestoneWire.EnumAttachPosition.SIDE;
@@ -336,15 +334,15 @@ public class BlockBluestoneWire extends Block {
 		boolean flag = block.isNormalCube();
 		boolean flag1 = worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
 		return !flag1 && flag
-				&& canRestoneConnect(worldIn, blockpos1.up(), null)
+				&& canBluestoneConnect(worldIn, blockpos1.up(), null)
 						? true
-						: (canRestoneConnect(worldIn, blockpos1, side) ? true
+						: (canBluestoneConnect(worldIn, blockpos1, side) ? true
 								: (block == BluestoneBlocks.blockBluestoneRepeaterOn
 										&& iblockstate.getValue(BlockBluestoneDiode.FACING) == side ? true
-												: !flag && canRestoneConnect(worldIn, blockpos1.down(), null)));
+												: !flag && canBluestoneConnect(worldIn, blockpos1.down(), null)));
 	}
 
-	protected static boolean canRestoneConnect(IBlockAccess world, BlockPos pos, EnumFacing side) {
+	protected static boolean canBluestoneConnect(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		IBlockState state = world.getBlockState(pos);
 
 		if (state.getBlock() == BluestoneBlocks.blockBluestoneWire) {

@@ -17,9 +17,9 @@ public class BluestoneItems{
 	
 	public static void init()
 	{
-		itemBluestone = new ItemBluestoneDust().setUnlocalizedName("itemBluestone").setCreativeTab(Bluestone.tabBluestone);
-		itemBluestoneRepeater = new ItemReed(BluestoneBlocks.blockBluestoneRepeaterOff).setUnlocalizedName("itemBluestoneRepeater").setCreativeTab(Bluestone.tabBluestone);
-		itemBluestoneComparator = new ItemReed(BluestoneBlocks.blockBluestoneComparatorOff).setUnlocalizedName("itemBluestoneComparator").setCreativeTab(Bluestone.tabBluestone);
+		itemBluestone = new ItemBluestoneDust().setUnlocalizedName("bluestone").setCreativeTab(Bluestone.tabBluestone);
+		itemBluestoneRepeater = new ItemReed(BluestoneBlocks.blockBluestoneRepeaterOff).setUnlocalizedName("bluestone_repeater").setCreativeTab(Bluestone.tabBluestone);
+		itemBluestoneComparator = new ItemReed(BluestoneBlocks.blockBluestoneComparatorOff).setUnlocalizedName("bluestone_comparator").setCreativeTab(Bluestone.tabBluestone);
 	}
 	
 	public static void register()

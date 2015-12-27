@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=up":  { "model": "bluestone:bluestone_torch_lit" },
+        "facing=east":  { "model": "bluestone:bluestone_torch_lit_wall" },
+        "facing=south":  { "model": "bluestone:bluestone_torch_lit_wall", "y": 90 },
+        "facing=west":  { "model": "bluestone:bluestone_torch_lit_wall", "y": 180 },
+        "facing=north":  { "model": "bluestone:bluestone_torch_lit_wall", "y": 270 }
+    }
+}

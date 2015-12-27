@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
+import com.solarmods.bluestone.versons.mod1_8.Items.BluestoneItems;
 import com.solarmods.bluestone.versons.mod1_8.TileEntity.TileEntityBluestoneComparator;
 
 import net.minecraft.block.Block;
@@ -46,13 +47,13 @@ public class BlockBluestoneComparator extends BlockBluestoneDiode implements ITi
 
 	    public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	    {
-	        return Items.comparator;
+	        return BluestoneItems.itemBluestoneComparator;
 	    }
 
 	    @SideOnly(Side.CLIENT)
 	    public Item getItem(World worldIn, BlockPos pos)
 	    {
-	        return Items.comparator;
+	        return BluestoneItems.itemBluestoneComparator;
 	    }
 
 	    protected int getDelay(IBlockState state)

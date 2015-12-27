@@ -1,0 +1,6 @@
+{
+    "parent": "block/torch",
+    "textures": {
+        "torch": "bluestone:blocks/bluestone_torch_unlit"
+    }
+}

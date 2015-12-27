@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -208,7 +207,7 @@ public abstract class BlockBluestoneDiode extends BlockDirectional {
 
 	public static boolean isRedstoneRepeaterBlockID(Block blockIn) {
 		return BluestoneBlocks.blockBluestoneRepeaterOff.isAssociatedBlock(blockIn)
-				|| Blocks.unpowered_comparator.isAssociated(blockIn);
+				|| BluestoneBlocks.blockBluestoneComparatorOff.isAssociatedBlock(blockIn);
 	}
 
 	public boolean isAssociated(Block other) {

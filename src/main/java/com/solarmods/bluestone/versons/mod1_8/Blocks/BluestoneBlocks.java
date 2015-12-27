@@ -13,32 +13,49 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BluestoneBlocks {
 	
+	//Blocks and Wires
 	public static Block blockBluestone;
 	public static Block blockBluestoneWire;
+	
+	//Torch
 	public static Block blockBluestoneTorchLit;
 	public static Block blockBluestoneTorchUnlit;
+	
+	//Diode
 	public static Block blockBluestoneRepeaterOff;
 	public static Block blockBluestoneRepeaterOn;
+	
+	//Comparator
 	public static Block blockBluestoneComparatorOff;
 	public static Block blockBluestoneComparatorOn;
+	
+	//Ore
 	public static Block blockBluestoneOreLit;
 	public static Block blockBluestoneOreUnlit;
+	
+	//Rails
 	public static Block blockBluestoneRailDetector;
 	public static Block blockBluestoneRailGolden;
 	
+	//Lamps
+	public static Block blockBluestoneLampOff;
+	public static Block blockBluestoneLampOn;
+	
 	public static void init() {
-		blockBluestone = new BlockCompressedPowered(MapColor.blueColor).setUnlocalizedName("blockBluestone").setCreativeTab(Bluestone.tabBluestone).setStepSound(Block.soundTypeMetal);
-		blockBluestoneWire = new BlockBluestoneWire().setUnlocalizedName("blockBluestoneWire").setStepSound(Block.soundTypeStone);
-		blockBluestoneTorchLit = new BlockBluestoneTorch(true).setUnlocalizedName("blockBluestoneTorchLit").setStepSound(Block.soundTypeWood).setCreativeTab(Bluestone.tabBluestone);
-		blockBluestoneTorchUnlit = new BlockBluestoneTorch(false).setUnlocalizedName("blockBluestoneTorchUnlit").setStepSound(Block.soundTypeWood);
-		blockBluestoneRepeaterOn = new BlockBluestoneRepeater(true).setUnlocalizedName("blockBluestoneRepeaterOn").setStepSound(Block.soundTypeWood);
-		blockBluestoneRepeaterOff = new BlockBluestoneRepeater(false).setUnlocalizedName("blockBluestoneRepeaterOff").setStepSound(Block.soundTypeWood);
-		blockBluestoneOreLit = new BlockBluestoneOre(true).setUnlocalizedName("blockBluestoneOreLit");
-		blockBluestoneOreUnlit = new BlockBluestoneOre(false).setUnlocalizedName("blockBluestoneOreUnlit");
-		blockBluestoneRailDetector = new BlockBluestoneRailDetector().setUnlocalizedName("blockBluestoneRailDetector").setStepSound(Block.soundTypeMetal).setCreativeTab(Bluestone.tabBluestone);
-		blockBluestoneRailGolden = new BlockBluestoneRailPowered().setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockBluestoneRailGolden").setCreativeTab(Bluestone.tabBluestone);
-		blockBluestoneComparatorOff = new BlockBluestoneComparator(false).setUnlocalizedName("blockBluestoneComparatorOff").setStepSound(Block.soundTypeWood);
-		blockBluestoneComparatorOn = new BlockBluestoneComparator(true).setUnlocalizedName("blockBluestoneComparatorOn").setStepSound(Block.soundTypeWood);
+		blockBluestone = new BlockCompressedPowered(MapColor.blueColor).setUnlocalizedName("bluestone_block").setCreativeTab(Bluestone.tabBluestone).setStepSound(Block.soundTypeMetal);
+		blockBluestoneWire = new BlockBluestoneWire().setUnlocalizedName("bluestone_dust").setStepSound(Block.soundTypeStone);
+		blockBluestoneTorchLit = new BlockBluestoneTorch(true).setUnlocalizedName("bluestone_torch_lit").setStepSound(Block.soundTypeWood).setCreativeTab(Bluestone.tabBluestone);
+		blockBluestoneTorchUnlit = new BlockBluestoneTorch(false).setUnlocalizedName("bluestone_torch_unlit").setStepSound(Block.soundTypeWood);
+		blockBluestoneRepeaterOn = new BlockBluestoneRepeater(true).setUnlocalizedName("bluestone_repeater_lit").setStepSound(Block.soundTypeWood);
+		blockBluestoneRepeaterOff = new BlockBluestoneRepeater(false).setUnlocalizedName("bluestone_repeater_unlit").setStepSound(Block.soundTypeWood);
+		blockBluestoneOreLit = new BlockBluestoneOre(true).setUnlocalizedName("lit_bluestone_ore");
+		blockBluestoneOreUnlit = new BlockBluestoneOre(false).setUnlocalizedName("bluestone_ore");
+		blockBluestoneRailDetector = new BlockBluestoneRailDetector().setUnlocalizedName("blue_rail_detector").setStepSound(Block.soundTypeMetal).setCreativeTab(Bluestone.tabBluestone);
+		blockBluestoneRailGolden = new BlockBluestoneRailPowered().setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blue_rail_golden").setCreativeTab(Bluestone.tabBluestone);
+		blockBluestoneComparatorOff = new BlockBluestoneComparator(false).setUnlocalizedName("bluestone_comparator_unlit").setStepSound(Block.soundTypeWood);
+		blockBluestoneComparatorOn = new BlockBluestoneComparator(true).setUnlocalizedName("bluestone_comparator_lit").setStepSound(Block.soundTypeWood);
+		blockBluestoneLampOff = new BlockBluestoneLight(false).setUnlocalizedName("bluestone_lamp_off").setCreativeTab(Bluestone.tabBluestone).setStepSound(Block.soundTypeGlass);
+		blockBluestoneLampOn = new BlockBluestoneLight(true).setUnlocalizedName("bluestone_lamp_on").setStepSound(Block.soundTypeGlass);
 	}
 
 	public static void register() {
@@ -54,6 +71,8 @@ public class BluestoneBlocks {
 		GameRegistry.registerBlock(blockBluestoneRailGolden, blockBluestoneRailGolden.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBluestoneComparatorOff, blockBluestoneComparatorOff.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBluestoneComparatorOn, blockBluestoneComparatorOn.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBluestoneLampOff, blockBluestoneLampOff.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBluestoneLampOn, blockBluestoneLampOn.getUnlocalizedName().substring(5));
 	}
 
 	public static void registerRenders() {
@@ -69,6 +88,8 @@ public class BluestoneBlocks {
 		registerRender(blockBluestoneRailGolden);
 		registerRender(blockBluestoneComparatorOff);
 		registerRender(blockBluestoneComparatorOn);
+		registerRender(blockBluestoneLampOff);
+		registerRender(blockBluestoneLampOn);
 	}
 
 	public static void registerRender(Block block) {

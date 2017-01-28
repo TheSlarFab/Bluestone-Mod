@@ -1,0 +1,10 @@
+tile.bluestone_block.name=Bluestone Block
+
+tile.unlit_bluestone_torch.name=Bluestone Torch
+tile.bluestone_torch.name=Bluestone Torch
+
+tile.bluestone_ore.name=Bluestone Ore
+tile.lit_bluestone_ore.name=Bluestone Ore
+
+
+itemGroup.tabBluestone=Bluestone

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bluestone",
+  "name": "Bluestone Mod",
+  "description": "This mod adds Bluestone and other various colors.",
+  "version": "1.0",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["zSolqrMods"],
+  "credits": "zSolqrMods for making this mod.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

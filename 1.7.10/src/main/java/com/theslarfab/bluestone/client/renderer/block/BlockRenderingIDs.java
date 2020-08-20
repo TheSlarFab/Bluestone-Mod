@@ -7,4 +7,5 @@ public class BlockRenderingIDs {
 	public static int bluestoneDiodeRenderID = RenderingRegistry.getNextAvailableRenderId();
 	public static int bluestoneRepeaterRenderID = RenderingRegistry.getNextAvailableRenderId();
 	public static int bluestoneComparatorRenderID = RenderingRegistry.getNextAvailableRenderId();
+	public static int bluestoneWireRenderID = RenderingRegistry.getNextAvailableRenderId();
 }

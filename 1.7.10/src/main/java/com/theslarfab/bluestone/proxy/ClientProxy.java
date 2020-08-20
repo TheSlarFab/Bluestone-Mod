@@ -3,6 +3,7 @@ package com.theslarfab.bluestone.proxy;
 import com.theslarfab.bluestone.client.renderer.block.RenderBlockBluestoneComparator;
 import com.theslarfab.bluestone.client.renderer.block.RenderBlockBluestoneDiode;
 import com.theslarfab.bluestone.client.renderer.block.RenderBlockBluestoneRepeater;
+import com.theslarfab.bluestone.client.renderer.block.RenderBlockBluestoneWire;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -17,5 +18,6 @@ public class ClientProxy extends CommonProxy implements IProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockBluestoneDiode());
 		RenderingRegistry.registerBlockHandler(new RenderBlockBluestoneRepeater());
 		RenderingRegistry.registerBlockHandler(new RenderBlockBluestoneComparator());
+		RenderingRegistry.registerBlockHandler(new RenderBlockBluestoneWire());
 	}
 }

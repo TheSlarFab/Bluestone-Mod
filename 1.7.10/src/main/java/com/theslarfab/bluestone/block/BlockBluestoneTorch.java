@@ -14,6 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,17 +23,17 @@ public class BlockBluestoneTorch extends BlockTorch {
 	private boolean field_150113_a;
 	private static Map field_150112_b = new HashMap();
 
-	private boolean func_150111_a(World p_150111_1_, int p_150111_2_, int p_150111_3_, int p_150111_4_,
+	private boolean func_150111_a(World world, int x, int y, int z,
 			boolean p_150111_5_) {
-		if (!field_150112_b.containsKey(p_150111_1_)) {
-			field_150112_b.put(p_150111_1_, new ArrayList());
+		if (!field_150112_b.containsKey(world)) {
+			field_150112_b.put(world, new ArrayList());
 		}
 
-		List list = (List) field_150112_b.get(p_150111_1_);
+		List list = (List) field_150112_b.get(world);
 
 		if (p_150111_5_) {
-			list.add(new BlockBluestoneTorch.Toggle(p_150111_2_, p_150111_3_, p_150111_4_,
-					p_150111_1_.getTotalWorldTime()));
+			list.add(new BlockBluestoneTorch.Toggle(x, y, z,
+					world.getTotalWorldTime()));
 		}
 
 		int l = 0;
@@ -40,8 +41,8 @@ public class BlockBluestoneTorch extends BlockTorch {
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			BlockBluestoneTorch.Toggle toggle = (BlockBluestoneTorch.Toggle) list.get(i1);
 
-			if (toggle.field_150847_a == p_150111_2_ && toggle.field_150845_b == p_150111_3_
-					&& toggle.field_150846_c == p_150111_4_) {
+			if (toggle.field_150847_a == x && toggle.field_150845_b == y
+					&& toggle.field_150846_c == z) {
 				++l;
 
 				if (l >= 8) {
@@ -78,15 +79,15 @@ public class BlockBluestoneTorch extends BlockTorch {
 		}
 	}
 
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_,
-			int p_149749_6_) {
+	public void breakBlock(World world, int x, int y, int z, Block block,
+			int k) {
 		if (this.field_150113_a) {
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_ - 1, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_ + 1, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ - 1, p_149749_3_, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ + 1, p_149749_3_, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ - 1, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ + 1, this);
+			world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+			world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+			world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+			world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 		}
 	}
 
@@ -166,7 +167,7 @@ public class BlockBluestoneTorch extends BlockTorch {
 				? this.isProvidingWeakPower(p_149748_1_, p_149748_2_, p_149748_3_, p_149748_4_, p_149748_5_) : 0;
 	}
 
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+	public Item getItemDropped(int i, Random random, int j) {
 		return Item.getItemFromBlock(BluestoneBlocks.bluestone_torch);
 	}
 
@@ -186,15 +187,15 @@ public class BlockBluestoneTorch extends BlockTorch {
 			double d4 = 0.27000001072883606D;
 
 			if (l == 1) {
-				p_149734_1_.spawnParticle("reddust", d0 - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
+				p_149734_1_.spawnParticle("reddust", d0 - d4, d1 + d3, d2, -1.0D, 0.0D, 1.0D);
 			} else if (l == 2) {
-				p_149734_1_.spawnParticle("reddust", d0 + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
+				p_149734_1_.spawnParticle("reddust", d0 + d4, d1 + d3, d2, -1.0D, 0.0D, 1.0D);
 			} else if (l == 3) {
-				p_149734_1_.spawnParticle("reddust", d0, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
+				p_149734_1_.spawnParticle("reddust", d0, d1 + d3, d2 - d4, -1.0D, 0.0D, 1.0D);
 			} else if (l == 4) {
-				p_149734_1_.spawnParticle("reddust", d0, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
+				p_149734_1_.spawnParticle("reddust", d0, d1 + d3, d2 + d4, -1.0D, 0.0D, 1.0D);
 			} else {
-				p_149734_1_.spawnParticle("reddust", d0, d1, d2, 0.0D, 0.0D, 0.0D);
+				p_149734_1_.spawnParticle("reddust", d0, d1, d2, -1.0D, 0.0D, 1.0D);
 			}
 		}
 	}

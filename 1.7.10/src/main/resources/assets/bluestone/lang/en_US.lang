@@ -6,5 +6,9 @@ tile.bluestone_torch.name=Bluestone Torch
 tile.bluestone_ore.name=Bluestone Ore
 tile.lit_bluestone_ore.name=Bluestone Ore
 
+item.bluestone.name=Bluestone
+item.bluestone_repeater.name=Bluestone Repeater
+item.bluestone_comparator.name=Bluestone Comparator
 
-itemGroup.tabBluestone=Bluestone
+
+itemGroup.bluestone=Bluestone

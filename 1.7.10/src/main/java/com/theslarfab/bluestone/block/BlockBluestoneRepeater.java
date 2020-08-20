@@ -130,7 +130,7 @@ public class BlockBluestoneRepeater extends BlockBluestoneDiode {
 				}
 			}
 
-			p_149734_1_.spawnParticle("reddust", d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+			p_149734_1_.spawnParticle("reddust", d0 + d3, d1, d2 + d4, -1.0D, 0.0D, 1.0D);
 		}
 	}
 }

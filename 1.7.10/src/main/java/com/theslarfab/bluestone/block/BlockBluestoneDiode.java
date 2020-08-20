@@ -149,7 +149,7 @@ public abstract class BlockBluestoneDiode extends BlockDirectional {
 		int l1 = world.getIndirectPowerLevelTo(j1, y, k1, Direction.directionToFacing[i1]);
 		return l1 >= 15 ? l1
 				: Math.max(l1,
-						world.getBlock(j1, y, k1) == Blocks.redstone_wire ? world.getBlockMetadata(j1, y, k1) : 0);
+						world.getBlock(j1, y, k1) == BluestoneBlocks.bluestone_wire ? world.getBlockMetadata(j1, y, k1) : 0);
 	}
 
 	protected int func_149902_h(IBlockAccess world, int x, int y, int z, int side) {
@@ -169,7 +169,7 @@ public abstract class BlockBluestoneDiode extends BlockDirectional {
 
 	protected int func_149913_i(IBlockAccess world, int x, int y, int z, int side) {
 		Block block = world.getBlock(x, y, z);
-		return this.func_149908_a(block) ? (block == Blocks.redstone_wire ? world.getBlockMetadata(x, y, z)
+		return this.func_149908_a(block) ? (block == BluestoneBlocks.bluestone_wire ? world.getBlockMetadata(x, y, z)
 				: world.isBlockProvidingPowerTo(x, y, z, side)) : 0;
 	}
 
@@ -242,7 +242,7 @@ public abstract class BlockBluestoneDiode extends BlockDirectional {
 
 	public static boolean isRedstoneRepeaterBlockID(Block block) {
 		return BluestoneBlocks.unpowered_bluestone_repeater.func_149907_e(block)
-				|| Blocks.unpowered_comparator.func_149907_e(block);
+				|| BluestoneBlocks.unpowered_bluestone_comparator.func_149907_e(block);
 	}
 
 	public boolean func_149907_e(Block block) {

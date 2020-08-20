@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import com.theslarfab.bluestone.Bluestone;
+import com.theslarfab.bluestone.client.renderer.block.BlockRenderingIDs;
 import com.theslarfab.bluestone.init.BluestoneBlocks;
 import com.theslarfab.bluestone.init.BluestoneItems;
 
@@ -25,7 +27,7 @@ import net.minecraft.world.World;
 
 public class BlockBluestoneWire extends Block {
 
-	private boolean field_150181_a = true;
+	private boolean isPowered = true;
 	private Set field_150179_b = new HashSet();
 	@SideOnly(Side.CLIENT)
 	private IIcon crossIcon;
@@ -41,78 +43,53 @@ public class BlockBluestoneWire extends Block {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
-	/**
-	 * Returns a bounding box from the pool of bounding boxes (this means this
-	 * box can change after the pool has been cleared to be reused)
-	 */
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_,
-			int p_149668_4_) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y,
+			int z) {
 		return null;
 	}
 
-	/**
-	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether
-	 * or not to render the shared face of two adjacent blocks and also whether
-	 * the player can attach torches, redstone wire, etc to this block.
-	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False
-	 * (examples: signs, buttons, stairs, etc)
-	 */
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
-	/**
-	 * The type of render function that is called for this block
-	 */
 	public int getRenderType() {
-		return 5;
+		return BlockRenderingIDs.bluestoneWireRenderID;
 	}
 
-	/**
-	 * Returns a integer with hex for 0xrrggbb with this color multiplied
-	 * against the blocks color. Note only called when first determining what to
-	 * render.
-	 */
 	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_) {
-		return 8388608;
+	public int colorMultiplier(IBlockAccess access, int x, int y, int z) {
+		return 136;
 	}
 
-	/**
-	 * Checks to see if its valid to put this block at the specified
-	 * coordinates. Args: world, x, y, z
-	 */
-	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_) {
-		return World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_)
-				|| p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_) == Blocks.glowstone;
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)
+				|| world.getBlock(x, y - 1, z) == Blocks.glowstone;
 	}
 
-	private void func_150177_e(World p_150177_1_, int p_150177_2_, int p_150177_3_, int p_150177_4_) {
-		this.func_150175_a(p_150177_1_, p_150177_2_, p_150177_3_, p_150177_4_, p_150177_2_, p_150177_3_, p_150177_4_);
+	private void func_150177_e(World world, int x, int y, int z) {
+		this.func_150175_a(world, x, y, z, x, y, z);
 		ArrayList arraylist = new ArrayList(this.field_150179_b);
 		this.field_150179_b.clear();
 
 		for (int l = 0; l < arraylist.size(); ++l) {
 			ChunkPosition chunkposition = (ChunkPosition) arraylist.get(l);
-			p_150177_1_.notifyBlocksOfNeighborChange(chunkposition.chunkPosX, chunkposition.chunkPosY,
+			world.notifyBlocksOfNeighborChange(chunkposition.chunkPosX, chunkposition.chunkPosY,
 					chunkposition.chunkPosZ, this);
 		}
 	}
 
-	private void func_150175_a(World p_150175_1_, int p_150175_2_, int p_150175_3_, int p_150175_4_, int p_150175_5_,
-			int p_150175_6_, int p_150175_7_) {
-		int k1 = p_150175_1_.getBlockMetadata(p_150175_2_, p_150175_3_, p_150175_4_);
+	private void func_150175_a(World world, int x, int y, int z, int x1,
+			int y1, int z1) {
+		int k1 = world.getBlockMetadata(x, y, z);
 		byte b0 = 0;
-		int i3 = this.func_150178_a(p_150175_1_, p_150175_5_, p_150175_6_, p_150175_7_, b0);
-		this.field_150181_a = false;
-		int l1 = p_150175_1_.getStrongestIndirectPower(p_150175_2_, p_150175_3_, p_150175_4_);
-		this.field_150181_a = true;
+		int i3 = this.func_150178_a(world, x1, y1, z1, b0);
+		this.isPowered = false;
+		int l1 = world.getStrongestIndirectPower(x, y, z);
+		this.isPowered = true;
 
 		if (l1 > 0 && l1 > i3 - 1) {
 			i3 = l1;
@@ -121,11 +98,11 @@ public class BlockBluestoneWire extends Block {
 		int i2 = 0;
 
 		for (int j2 = 0; j2 < 4; ++j2) {
-			int k2 = p_150175_2_;
-			int l2 = p_150175_4_;
+			int k2 = x;
+			int l2 = z;
 
 			if (j2 == 0) {
-				k2 = p_150175_2_ - 1;
+				k2 = x - 1;
 			}
 
 			if (j2 == 1) {
@@ -133,25 +110,25 @@ public class BlockBluestoneWire extends Block {
 			}
 
 			if (j2 == 2) {
-				l2 = p_150175_4_ - 1;
+				l2 = z - 1;
 			}
 
 			if (j2 == 3) {
 				++l2;
 			}
 
-			if (k2 != p_150175_5_ || l2 != p_150175_7_) {
-				i2 = this.func_150178_a(p_150175_1_, k2, p_150175_3_, l2, i2);
+			if (k2 != x1 || l2 != z1) {
+				i2 = this.func_150178_a(world, k2, y, l2, i2);
 			}
 
-			if (p_150175_1_.getBlock(k2, p_150175_3_, l2).isNormalCube()
-					&& !p_150175_1_.getBlock(p_150175_2_, p_150175_3_ + 1, p_150175_4_).isNormalCube()) {
-				if ((k2 != p_150175_5_ || l2 != p_150175_7_) && p_150175_3_ >= p_150175_6_) {
-					i2 = this.func_150178_a(p_150175_1_, k2, p_150175_3_ + 1, l2, i2);
+			if (world.getBlock(k2, y, l2).isNormalCube()
+					&& !world.getBlock(x, y + 1, z).isNormalCube()) {
+				if ((k2 != x1 || l2 != z1) && y >= y1) {
+					i2 = this.func_150178_a(world, k2, y + 1, l2, i2);
 				}
-			} else if (!p_150175_1_.getBlock(k2, p_150175_3_, l2).isNormalCube()
-					&& (k2 != p_150175_5_ || l2 != p_150175_7_) && p_150175_3_ <= p_150175_6_) {
-				i2 = this.func_150178_a(p_150175_1_, k2, p_150175_3_ - 1, l2, i2);
+			} else if (!world.getBlock(k2, y, l2).isNormalCube()
+					&& (k2 != x1 || l2 != z1) && y <= y1) {
+				i2 = this.func_150178_a(world, k2, y - 1, l2, i2);
 			}
 		}
 
@@ -168,249 +145,228 @@ public class BlockBluestoneWire extends Block {
 		}
 
 		if (k1 != i3) {
-			p_150175_1_.setBlockMetadataWithNotify(p_150175_2_, p_150175_3_, p_150175_4_, i3, 2);
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_, p_150175_3_, p_150175_4_));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_ - 1, p_150175_3_, p_150175_4_));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_ + 1, p_150175_3_, p_150175_4_));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_, p_150175_3_ - 1, p_150175_4_));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_, p_150175_3_ + 1, p_150175_4_));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_, p_150175_3_, p_150175_4_ - 1));
-			this.field_150179_b.add(new ChunkPosition(p_150175_2_, p_150175_3_, p_150175_4_ + 1));
+			world.setBlockMetadataWithNotify(x, y, z, i3, 2);
+			this.field_150179_b.add(new ChunkPosition(x, y, z));
+			this.field_150179_b.add(new ChunkPosition(x - 1, y, z));
+			this.field_150179_b.add(new ChunkPosition(x + 1, y, z));
+			this.field_150179_b.add(new ChunkPosition(x, y - 1, z));
+			this.field_150179_b.add(new ChunkPosition(x, y + 1, z));
+			this.field_150179_b.add(new ChunkPosition(x, y, z - 1));
+			this.field_150179_b.add(new ChunkPosition(x, y, z + 1));
 		}
 	}
 
-	private void func_150172_m(World p_150172_1_, int p_150172_2_, int p_150172_3_, int p_150172_4_) {
-		if (p_150172_1_.getBlock(p_150172_2_, p_150172_3_, p_150172_4_) == this) {
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_, p_150172_3_, p_150172_4_, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_ - 1, p_150172_3_, p_150172_4_, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_ + 1, p_150172_3_, p_150172_4_, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_, p_150172_3_, p_150172_4_ - 1, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_, p_150172_3_, p_150172_4_ + 1, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_, p_150172_3_ - 1, p_150172_4_, this);
-			p_150172_1_.notifyBlocksOfNeighborChange(p_150172_2_, p_150172_3_ + 1, p_150172_4_, this);
+	private void func_150172_m(World world, int x, int y, int z) {
+		if (world.getBlock(x, y, z) == this) {
+			world.notifyBlocksOfNeighborChange(x, y, z, this);
+			world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+			world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+			world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+			world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
 		}
 	}
 
-	/**
-	 * Called whenever the block is added into the world. Args: world, x, y, z
-	 */
-	public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_) {
-		super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
 
-		if (!p_149726_1_.isRemote) {
-			this.func_150177_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
-			p_149726_1_.notifyBlocksOfNeighborChange(p_149726_2_, p_149726_3_ + 1, p_149726_4_, this);
-			p_149726_1_.notifyBlocksOfNeighborChange(p_149726_2_, p_149726_3_ - 1, p_149726_4_, this);
-			this.func_150172_m(p_149726_1_, p_149726_2_ - 1, p_149726_3_, p_149726_4_);
-			this.func_150172_m(p_149726_1_, p_149726_2_ + 1, p_149726_3_, p_149726_4_);
-			this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_ - 1);
-			this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_ + 1);
+		if (!world.isRemote) {
+			this.func_150177_e(world, x, y, z);
+			world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+			world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+			this.func_150172_m(world, x - 1, y, z);
+			this.func_150172_m(world, x + 1, y, z);
+			this.func_150172_m(world, x, y, z - 1);
+			this.func_150172_m(world, x, y, z + 1);
 
-			if (p_149726_1_.getBlock(p_149726_2_ - 1, p_149726_3_, p_149726_4_).isNormalCube()) {
-				this.func_150172_m(p_149726_1_, p_149726_2_ - 1, p_149726_3_ + 1, p_149726_4_);
+			if (world.getBlock(x - 1, y, z).isNormalCube()) {
+				this.func_150172_m(world, x - 1, y + 1, z);
 			} else {
-				this.func_150172_m(p_149726_1_, p_149726_2_ - 1, p_149726_3_ - 1, p_149726_4_);
+				this.func_150172_m(world, x - 1, y - 1, z);
 			}
 
-			if (p_149726_1_.getBlock(p_149726_2_ + 1, p_149726_3_, p_149726_4_).isNormalCube()) {
-				this.func_150172_m(p_149726_1_, p_149726_2_ + 1, p_149726_3_ + 1, p_149726_4_);
+			if (world.getBlock(x + 1, y, z).isNormalCube()) {
+				this.func_150172_m(world, x + 1, y + 1, z);
 			} else {
-				this.func_150172_m(p_149726_1_, p_149726_2_ + 1, p_149726_3_ - 1, p_149726_4_);
+				this.func_150172_m(world, x + 1, y - 1, z);
 			}
 
-			if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ - 1).isNormalCube()) {
-				this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ + 1, p_149726_4_ - 1);
+			if (world.getBlock(x, y, z - 1).isNormalCube()) {
+				this.func_150172_m(world, x, y + 1, z - 1);
 			} else {
-				this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_ - 1);
+				this.func_150172_m(world, x, y - 1, z - 1);
 			}
 
-			if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ + 1).isNormalCube()) {
-				this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ + 1, p_149726_4_ + 1);
+			if (world.getBlock(x, y, z + 1).isNormalCube()) {
+				this.func_150172_m(world, x, y + 1, z + 1);
 			} else {
-				this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_ + 1);
-			}
-		}
-	}
-
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_,
-			int p_149749_6_) {
-		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
-
-		if (!p_149749_1_.isRemote) {
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_ + 1, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_ - 1, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ + 1, p_149749_3_, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ - 1, p_149749_3_, p_149749_4_, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ + 1, this);
-			p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ - 1, this);
-			this.func_150177_e(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_);
-			this.func_150172_m(p_149749_1_, p_149749_2_ - 1, p_149749_3_, p_149749_4_);
-			this.func_150172_m(p_149749_1_, p_149749_2_ + 1, p_149749_3_, p_149749_4_);
-			this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_ - 1);
-			this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_ + 1);
-
-			if (p_149749_1_.getBlock(p_149749_2_ - 1, p_149749_3_, p_149749_4_).isNormalCube()) {
-				this.func_150172_m(p_149749_1_, p_149749_2_ - 1, p_149749_3_ + 1, p_149749_4_);
-			} else {
-				this.func_150172_m(p_149749_1_, p_149749_2_ - 1, p_149749_3_ - 1, p_149749_4_);
-			}
-
-			if (p_149749_1_.getBlock(p_149749_2_ + 1, p_149749_3_, p_149749_4_).isNormalCube()) {
-				this.func_150172_m(p_149749_1_, p_149749_2_ + 1, p_149749_3_ + 1, p_149749_4_);
-			} else {
-				this.func_150172_m(p_149749_1_, p_149749_2_ + 1, p_149749_3_ - 1, p_149749_4_);
-			}
-
-			if (p_149749_1_.getBlock(p_149749_2_, p_149749_3_, p_149749_4_ - 1).isNormalCube()) {
-				this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ + 1, p_149749_4_ - 1);
-			} else {
-				this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ - 1, p_149749_4_ - 1);
-			}
-
-			if (p_149749_1_.getBlock(p_149749_2_, p_149749_3_, p_149749_4_ + 1).isNormalCube()) {
-				this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ + 1, p_149749_4_ + 1);
-			} else {
-				this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ - 1, p_149749_4_ + 1);
+				this.func_150172_m(world, x, y - 1, z + 1);
 			}
 		}
 	}
 
-	private int func_150178_a(World p_150178_1_, int p_150178_2_, int p_150178_3_, int p_150178_4_, int p_150178_5_) {
-		if (p_150178_1_.getBlock(p_150178_2_, p_150178_3_, p_150178_4_) != this) {
-			return p_150178_5_;
+	public void breakBlock(World world, int x, int y, int z, Block block,
+			int i) {
+		super.breakBlock(world, x, y, z, block, i);
+
+		if (!world.isRemote) {
+			world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+			world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+			world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+			world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+			world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+			this.func_150177_e(world, x, y, z);
+			this.func_150172_m(world, x - 1, y, z);
+			this.func_150172_m(world, x + 1, y, z);
+			this.func_150172_m(world, x, y, z - 1);
+			this.func_150172_m(world, x, y, z + 1);
+
+			if (world.getBlock(x - 1, y, z).isNormalCube()) {
+				this.func_150172_m(world, x - 1, y + 1, z);
+			} else {
+				this.func_150172_m(world, x - 1, y - 1, z);
+			}
+
+			if (world.getBlock(x + 1, y, z).isNormalCube()) {
+				this.func_150172_m(world, x + 1, y + 1, z);
+			} else {
+				this.func_150172_m(world, x + 1, y - 1, z);
+			}
+
+			if (world.getBlock(x, y, z - 1).isNormalCube()) {
+				this.func_150172_m(world, x, y + 1, z - 1);
+			} else {
+				this.func_150172_m(world, x, y - 1, z - 1);
+			}
+
+			if (world.getBlock(x, y, z + 1).isNormalCube()) {
+				this.func_150172_m(world, x, y + 1, z + 1);
+			} else {
+				this.func_150172_m(world, x, y - 1, z + 1);
+			}
+		}
+	}
+
+	private int func_150178_a(World world, int x, int y, int z, int l) {
+		if (world.getBlock(x, y, z) != this) {
+			return l;
 		} else {
-			int i1 = p_150178_1_.getBlockMetadata(p_150178_2_, p_150178_3_, p_150178_4_);
-			return i1 > p_150178_5_ ? i1 : p_150178_5_;
+			int i1 = world.getBlockMetadata(x, y, z);
+			return i1 > l ? i1 : l;
 		}
 	}
 
-	/**
-	 * Lets the block know when one of its neighbor changes. Doesn't know which
-	 * neighbor changed (coordinates passed are their own) Args: x, y, z,
-	 * neighbor Block
-	 */
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_,
-			Block p_149695_5_) {
-		if (!p_149695_1_.isRemote) {
-			boolean flag = this.canPlaceBlockAt(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
+	public void onNeighborBlockChange(World world, int x, int y, int z,
+			Block block) {
+		if (!world.isRemote) {
+			boolean flag = this.canPlaceBlockAt(world, x, y, z);
 
 			if (flag) {
-				this.func_150177_e(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
+				this.func_150177_e(world, x, y, z);
 			} else {
-				this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 0, 0);
-				p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
+				this.dropBlockAsItem(world, x, y, z, 0, 0);
+				world.setBlockToAir(x, y, z);
 			}
 
-			super.onNeighborBlockChange(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
+			super.onNeighborBlockChange(world, x, y, z, block);
 		}
 	}
 
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Items.redstone;
+	public Item getItemDropped(int i, Random random, int j) {
+		return BluestoneItems.bluestone;
 	}
 
-	public int isProvidingStrongPower(IBlockAccess p_149748_1_, int p_149748_2_, int p_149748_3_, int p_149748_4_,
-			int p_149748_5_) {
-		return !this.field_150181_a ? 0
-				: this.isProvidingWeakPower(p_149748_1_, p_149748_2_, p_149748_3_, p_149748_4_, p_149748_5_);
+	public int isProvidingStrongPower(IBlockAccess access, int i, int j, int k,
+			int l) {
+		return !this.isPowered ? 0
+				: this.isProvidingWeakPower(access, i, j, k, l);
 	}
 
-	public int isProvidingWeakPower(IBlockAccess p_149709_1_, int p_149709_2_, int p_149709_3_, int p_149709_4_,
-			int p_149709_5_) {
-		if (!this.field_150181_a) {
+	public int isProvidingWeakPower(IBlockAccess acc, int x, int y, int z,
+			int q) {
+		if (!this.isPowered) {
 			return 0;
 		} else {
-			int i1 = p_149709_1_.getBlockMetadata(p_149709_2_, p_149709_3_, p_149709_4_);
+			int i1 = acc.getBlockMetadata(x, y, z);
 
 			if (i1 == 0) {
 				return 0;
-			} else if (p_149709_5_ == 1) {
+			} else if (q == 1) {
 				return i1;
 			} else {
-				boolean flag = func_150176_g(p_149709_1_, p_149709_2_ - 1, p_149709_3_, p_149709_4_, 1)
-						|| !p_149709_1_.getBlock(p_149709_2_ - 1, p_149709_3_, p_149709_4_).isNormalCube()
-								&& func_150176_g(p_149709_1_, p_149709_2_ - 1, p_149709_3_ - 1, p_149709_4_, -1);
-				boolean flag1 = func_150176_g(p_149709_1_, p_149709_2_ + 1, p_149709_3_, p_149709_4_, 3)
-						|| !p_149709_1_.getBlock(p_149709_2_ + 1, p_149709_3_, p_149709_4_).isNormalCube()
-								&& func_150176_g(p_149709_1_, p_149709_2_ + 1, p_149709_3_ - 1, p_149709_4_, -1);
-				boolean flag2 = func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_ - 1, 2)
-						|| !p_149709_1_.getBlock(p_149709_2_, p_149709_3_, p_149709_4_ - 1).isNormalCube()
-								&& func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_ - 1, p_149709_4_ - 1, -1);
-				boolean flag3 = func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_ + 1, 0)
-						|| !p_149709_1_.getBlock(p_149709_2_, p_149709_3_, p_149709_4_ + 1).isNormalCube()
-								&& func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_ - 1, p_149709_4_ + 1, -1);
+				boolean flag = func_150176_g(acc, x - 1, y, z, 1)
+						|| !acc.getBlock(x - 1, y, z).isNormalCube()
+								&& func_150176_g(acc, x - 1, y - 1, z, -1);
+				boolean flag1 = func_150176_g(acc, x + 1, y, z, 3)
+						|| !acc.getBlock(x + 1, y, z).isNormalCube()
+								&& func_150176_g(acc, x + 1, y - 1, z, -1);
+				boolean flag2 = func_150176_g(acc, x, y, z - 1, 2)
+						|| !acc.getBlock(x, y, z - 1).isNormalCube()
+								&& func_150176_g(acc, x, y - 1, z - 1, -1);
+				boolean flag3 = func_150176_g(acc, x, y, z + 1, 0)
+						|| !acc.getBlock(x, y, z + 1).isNormalCube()
+								&& func_150176_g(acc, x, y - 1, z + 1, -1);
 
-				if (!p_149709_1_.getBlock(p_149709_2_, p_149709_3_ + 1, p_149709_4_).isNormalCube()) {
-					if (p_149709_1_.getBlock(p_149709_2_ - 1, p_149709_3_, p_149709_4_).isNormalCube()
-							&& func_150176_g(p_149709_1_, p_149709_2_ - 1, p_149709_3_ + 1, p_149709_4_, -1)) {
+				if (!acc.getBlock(x, y + 1, z).isNormalCube()) {
+					if (acc.getBlock(x - 1, y, z).isNormalCube()
+							&& func_150176_g(acc, x - 1, y + 1, z, -1)) {
 						flag = true;
 					}
 
-					if (p_149709_1_.getBlock(p_149709_2_ + 1, p_149709_3_, p_149709_4_).isNormalCube()
-							&& func_150176_g(p_149709_1_, p_149709_2_ + 1, p_149709_3_ + 1, p_149709_4_, -1)) {
+					if (acc.getBlock(x + 1, y, z).isNormalCube()
+							&& func_150176_g(acc, x + 1, y + 1, z, -1)) {
 						flag1 = true;
 					}
 
-					if (p_149709_1_.getBlock(p_149709_2_, p_149709_3_, p_149709_4_ - 1).isNormalCube()
-							&& func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_ + 1, p_149709_4_ - 1, -1)) {
+					if (acc.getBlock(x, y, z - 1).isNormalCube()
+							&& func_150176_g(acc, x, y + 1, z - 1, -1)) {
 						flag2 = true;
 					}
 
-					if (p_149709_1_.getBlock(p_149709_2_, p_149709_3_, p_149709_4_ + 1).isNormalCube()
-							&& func_150176_g(p_149709_1_, p_149709_2_, p_149709_3_ + 1, p_149709_4_ + 1, -1)) {
+					if (acc.getBlock(x, y, z + 1).isNormalCube()
+							&& func_150176_g(acc, x, y + 1, z + 1, -1)) {
 						flag3 = true;
 					}
 				}
 
-				return !flag2 && !flag1 && !flag && !flag3 && p_149709_5_ >= 2 && p_149709_5_ <= 5 ? i1
-						: (p_149709_5_ == 2 && flag2 && !flag && !flag1 ? i1
-								: (p_149709_5_ == 3 && flag3 && !flag && !flag1 ? i1
-										: (p_149709_5_ == 4 && flag && !flag2 && !flag3 ? i1
-												: (p_149709_5_ == 5 && flag1 && !flag2 && !flag3 ? i1 : 0))));
+				return !flag2 && !flag1 && !flag && !flag3 && q >= 2 && q <= 5 ? i1
+						: (q == 2 && flag2 && !flag && !flag1 ? i1
+								: (q == 3 && flag3 && !flag && !flag1 ? i1
+										: (q == 4 && flag && !flag2 && !flag3 ? i1
+												: (q == 5 && flag1 && !flag2 && !flag3 ? i1 : 0))));
 			}
 		}
 	}
 
-	/**
-	 * Can this block provide power. Only wire currently seems to have this
-	 * change based on its state.
-	 */
 	public boolean canProvidePower() {
-		return this.field_150181_a;
+		return this.isPowered;
 	}
 
-	/**
-	 * Returns true if redstone wire can connect to the specified block. Params:
-	 * World, X, Y, Z, side (not a normal notch-side, this can be 0, 1, 2, 3 or
-	 * -1)
-	 */
-	public static boolean isPowerProviderOrWire(IBlockAccess p_150174_0_, int p_150174_1_, int p_150174_2_,
-			int p_150174_3_, int p_150174_4_) {
-		Block block = p_150174_0_.getBlock(p_150174_1_, p_150174_2_, p_150174_3_);
+	public static boolean isPowerProviderOrWire(IBlockAccess access, int x, int y,
+			int z, int side) {
+		Block block = access.getBlock(x, y, z);
 
-		if (block == Blocks.redstone_wire) {
+		if (block == BluestoneBlocks.bluestone_wire) {
 			return true;
-		} else if (!Blocks.unpowered_repeater.func_149907_e(block)) {
-			return block.canConnectRedstone(p_150174_0_, p_150174_1_, p_150174_2_, p_150174_3_, p_150174_4_);
+		} else if (!BluestoneBlocks.unpowered_bluestone_repeater.func_149907_e(block)) {
+			return block.canConnectRedstone(access, x, y, z, side);
 		} else {
-			int i1 = p_150174_0_.getBlockMetadata(p_150174_1_, p_150174_2_, p_150174_3_);
-			return p_150174_4_ == (i1 & 3) || p_150174_4_ == Direction.rotateOpposite[i1 & 3];
+			int i1 = access.getBlockMetadata(x, y, z);
+			return side == (i1 & 3) || side == Direction.rotateOpposite[i1 & 3];
 		}
 	}
 
-	/**
-	 * A randomly called display update to be able to add particles or other
-	 * items for display
-	 */
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_,
-			Random p_149734_5_) {
-		int l = p_149734_1_.getBlockMetadata(p_149734_2_, p_149734_3_, p_149734_4_);
+	public void randomDisplayTick(World world, int x, int y, int z,
+			Random random) {
+		int l = world.getBlockMetadata(x, y, z);
 
 		if (l > 0) {
-			double d0 = (double) p_149734_2_ + 0.5D + ((double) p_149734_5_.nextFloat() - 0.5D) * 0.2D;
-			double d1 = (double) ((float) p_149734_3_ + 0.0625F);
-			double d2 = (double) p_149734_4_ + 0.5D + ((double) p_149734_5_.nextFloat() - 0.5D) * 0.2D;
+			double d0 = (double) x + 0.5D + ((double) random.nextFloat() - 0.5D) * 0.2D;
+			double d1 = (double) ((float) y + 0.0625F);
+			double d2 = (double) z + 0.5D + ((double) random.nextFloat() - 0.5D) * 0.2D;
 			float f = (float) l / 15.0F;
 			float f1 = f * 0.6F + 0.4F;
 
@@ -429,7 +385,7 @@ public class BlockBluestoneWire extends Block {
 				f3 = 0.0F;
 			}
 
-			p_149734_1_.spawnParticle("reddust", d0, d1, d2, (double) f1, (double) f2, (double) f3);
+			world.spawnParticle("reddust", d0, d1, d2, -1.0D, 0.0D, 1.0D);
 		}
 	}
 
